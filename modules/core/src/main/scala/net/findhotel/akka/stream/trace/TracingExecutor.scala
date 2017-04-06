@@ -20,7 +20,7 @@ class TracingExecutorConfigurator(config: Config, prerequisites: DispatcherPrere
 case class TracingExecutorFactory(id: String, tf: ThreadFactory, tracer: Tracer) extends ExecutorServiceFactory {
 
   override def createExecutorService: ExecutorService = {
-    tracer.newTraceExecutorService(Executors.newCachedThreadPool(tf), id)
+    tracer.newTraceExecutorService(Executors.newFixedThreadPool(8, tf), id)
   }
 
 }

@@ -26,7 +26,6 @@ object Directives {
     }
     r.uri.rawQueryString match {
       case Some(qs) => scope.addKVAnnotation("query string", qs)
-      case None => scope.addKVAnnotation("query string", "no query string")
     }
 
     scope
