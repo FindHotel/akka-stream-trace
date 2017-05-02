@@ -21,8 +21,8 @@ val akka = {
 
 val trace = {
   Seq(
-    "org.apache.htrace" % "htrace-core4" % "4.3.0-incubating-SNAPSHOT",
-    "org.apache.htrace" % "htrace-zipkin" % "4.3.0-incubating-SNAPSHOT"
+    "org.apache.htrace" % "htrace-core4" % "4.3.0-SNAPSHOT",
+    "org.apache.htrace" % "htrace-zipkin" % "4.3.0-SNAPSHOT"
   )
 }
 
@@ -37,13 +37,17 @@ lazy val core = project.in( file("modules/core") )
   .settings(
     libraryDependencies ++= Seq(conf,joda)++ akka ++ trace ++ test,
     scalaV,
-    resolvers += Resolver.mavenLocal
-  )
+    resolvers ++= Seq(
+      Resolver.mavenLocal,
+      "Apache OSS Snapshots" at "https://repository.apache.org/content/groups/snapshots/")
+)
 
 lazy val examples = project.in( file("modules/examples") )
   .settings(
     libraryDependencies ++= akka,
     scalaV,
-    resolvers += Resolver.mavenLocal
+    resolvers ++= Seq(
+      Resolver.mavenLocal,
+      "Apache OSS Snapshots" at "https://repository.apache.org/content/groups/snapshots/")
   ).dependsOn(core)
 
