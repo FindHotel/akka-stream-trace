@@ -1,8 +1,9 @@
 import scalariform.formatter.preferences._
+name := "akka-stream-trace-package"
 
-name := "modern-scala-seed"
+version := "0.3-SNAPSHOT"
 
-version := "0.1-SNAPSHOT"
+organization := "net.findhotel"
 
 val scalaV = scalaVersion := "2.11.8"
 
@@ -38,4 +39,11 @@ lazy val core = project.in( file("modules/core") )
     scalaV,
     resolvers += Resolver.mavenLocal
   )
+
+lazy val examples = project.in( file("modules/examples") )
+  .settings(
+    libraryDependencies ++= akka,
+    scalaV,
+    resolvers += Resolver.mavenLocal
+  ).dependsOn(core)
 
