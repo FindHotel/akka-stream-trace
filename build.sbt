@@ -29,7 +29,7 @@ val trace = {
 val test = Seq("org.scalactic" %% "scalactic" % "3.0.0", "org.scalatest" %% "scalatest" % "3.0.0" % "test")
 
 
-
+val apache_oss = "Apache OSS Snapshots" at "https://repository.apache.org/content/groups/snapshots/"
 
 fork in run := true
 
@@ -39,7 +39,8 @@ lazy val core = project.in( file("modules/core") )
     scalaV,
     resolvers ++= Seq(
       Resolver.mavenLocal,
-      "Apache OSS Snapshots" at "https://repository.apache.org/content/groups/snapshots/")
+      apache_oss
+      )
 )
 
 lazy val examples = project.in( file("modules/examples") )
@@ -48,6 +49,38 @@ lazy val examples = project.in( file("modules/examples") )
     scalaV,
     resolvers ++= Seq(
       Resolver.mavenLocal,
-      "Apache OSS Snapshots" at "https://repository.apache.org/content/groups/snapshots/")
+      apache_oss
+    )
   ).dependsOn(core)
+
+
+licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-license.php"))
+
+homepage := Some(url("http://company.findhotel.net"))
+
+scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/FindHotel/akka-stream-trace"),
+    "scm:git@github.com:FindHotel/akka-stream-trace.git"
+  )
+)
+
+developers := List(
+  Developer(
+    id    = "raam86",
+    name  = "Raam Rosh Hai",
+    email = "raam@findhotel.net",
+    url   = url("https://github.com/raam86")
+  )
+)
+
+publishMavenStyle := true
+
+publishTo := {
+  val nexus = "https://oss.sonatype.org/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+}
 
