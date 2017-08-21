@@ -26,6 +26,7 @@ object Directives {
     }
     r.uri.rawQueryString match {
       case Some(qs) => scope.addKVAnnotation("query string", qs)
+      case None =>
     }
 
     scope
@@ -53,7 +54,7 @@ object Directives {
     val maybeTraceId = Try(req.getHeader(HTRACE_HEADER_NAME).get().value()).toOption
     val s = handleNewScope(req, maybeTraceId)
     val f = Route.asyncHandler(startScope(s) { route }).apply(req.withHeaders(createHtraceHeader(s)))
-    f.andThen { case _ => s.addTimelineAnnotation("Requset closed"); s.reattach(); s.close() }
+    f.andThen { case _ => s.addTimelineAnnotation("Request closed"); s.reattach(); s.close() }
     s.detach()
     f
   }
